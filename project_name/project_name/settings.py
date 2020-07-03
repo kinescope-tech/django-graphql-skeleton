@@ -20,12 +20,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/{{docs_version}}/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_-g2y4(1f&4k(7&-g5@+7zleu7^o+$lrps@x4*twl918z4jvxx'
+SECRET_KEY = '{{secret_key}}'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+PROD_ENV_TAGS = ["production", "testing"]
+GQ_ENV = os.environ.get("GQ_ENV", "development")
+DEBUG = False if GQ_ENV in PROD_ENV_TAGS else True
+print("{{project_name|title}} Server running in {} mode.".format(GQ_ENV))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".{{project_name}}.com", "localhost"]
 
 
 # Application definition
@@ -117,4 +120,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/{{docs_version}}/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/djstatic/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') if GQ_ENV in PROD_ENV_TAGS else None
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if GQ_ENV == 'development"' else []
