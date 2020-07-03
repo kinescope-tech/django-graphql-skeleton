@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db_{{project_name}}_v1:/var/lib/postgresql/data
+      - db_v1:/var/lib/postgresql/data
     env_file:
       - ./config/dev.env
     networks: 
@@ -24,11 +24,11 @@ services:
       PGADMIN_DEFAULT_EMAIL: gql@gql.com
       PGADMIN_DEFAULT_PASSWORD: gql
     ports:
-      - "80:80"
+      - "8080:80"
     networks: 
       - db_network
 
-  {{project_name}}:
+  webapp:
     build:
       context: .
       dockerfile: "{{project_name}}.dockerfile"
@@ -60,7 +60,7 @@ services:
     networks: 
       - nginx_network
     depends_on:
-      - {{project_name}}
+      - webapp
 
 networks:
   db_network:
@@ -69,5 +69,5 @@ networks:
     driver: bridge
 
 volumes:
-  db_{{project_name}}_v1:
+  db_v1:
   static:

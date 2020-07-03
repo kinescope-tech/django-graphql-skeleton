@@ -1,4 +1,4 @@
-FROM python:3.8.3-slim
+FROM python:3.7.8-slim
 LABEL maintainer="Maintainer Email <maintainer@email.com>"
 
 ENV PYTHONUNBUFFERED 1

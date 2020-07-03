@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "initial loading..."
+echo "Copying static assets..."
 cp -a static/* /staticfiles/
-
-python3 manage.py migrate_schemas
-
-gunicorn {{project_name}}.wsgi:application --bind :23907 --workers=3 --keep-alive=180 --timeout=180
+echo "Migrating databse changes..."
+python3 manage.py migrate
+echo "Starting gunicorn workers..."
+gunicorn {{project_name}}.wsgi:application --bind :23907 --workers=3
