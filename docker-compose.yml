@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: gq_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_{{project_name}}_v1:/var/lib/postgresql/data
+    env_file:
+      - ./config/dev.env
+    networks: 
+      - db_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: gq_admin
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: gql@gql.com
+      PGADMIN_DEFAULT_PASSWORD: gql
+    ports:
+      - "80:80"
+    networks: 
+      - db_network
+
+  {{project_name}}:
+    build:
+      context: .
+      dockerfile: "{{project_name}}.dockerfile"
+    container_name: gq_webapp
+    command: ["./run.sh"]
+    volumes:
+      - static:/staticfiles
+    restart: always
+    env_file:
+      - ./config/dev.env
+    environment:
+      GQ_ENV: production
+    networks: 
+      - db_network
+      - nginx_network
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: .
+      dockerfile: "nginx.dockerfile"
+    container_name: gq_server
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - static:/usr/share/nginx/static
+    networks: 
+      - nginx_network
+    depends_on:
+      - {{project_name}}
+
+networks:
+  db_network:
+    driver: bridge
+  nginx_network:
+    driver: bridge
+
+volumes:
+  db_{{project_name}}_v1:
+  static:
