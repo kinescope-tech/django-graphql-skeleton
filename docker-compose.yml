@@ -16,8 +16,6 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     container_name: gq_admin
-    links:
-      - db
     depends_on:
       - db
     environment:
@@ -33,6 +31,8 @@ services:
       context: .
       dockerfile: "{{project_name}}.dockerfile"
     container_name: gq_webapp
+    depends_on:
+      - db
     command: ["./run.sh"]
     volumes:
       - static:/staticfiles
@@ -44,8 +44,6 @@ services:
     networks: 
       - db_network
       - nginx_network
-    depends_on:
-      - db
 
   nginx:
     build:
