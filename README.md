@@ -1,4 +1,4 @@
-# django-gql-skeleton
+# django-graphql-skeleton
 A Django starter project template for building GraphQL APIs. Get up and running in production with 4 simple steps.
 
 ### Features
@@ -11,9 +11,9 @@ A Django starter project template for building GraphQL APIs. Get up and running 
 
 ### Quickstart
 
-1. `django-admin startproject --template=https://github.com/kinescope-tech/django-gql-skeleton/archive/master.zip --extension=py,dockerfile,yml,sh,env,conf my_project`
+1. `django-admin startproject --template=https://github.com/kinescope-tech/django-graphql-skeleton/archive/master.zip --extension=py,dockerfile,yml,sh,env,conf my_project`
 
-    If gives SSL error then [download](https://github.com/kinescope-tech/django-gql-skeleton/archive/master.zip) and use `--template` flag like this.
+    If gives SSL error then [download](https://github.com/kinescope-tech/django-graphql-skeleton/archive/master.zip) and use `--template` flag like this.
 
     `django-admin startproject --template=~/Downloads/master.zip --extension=py,dockerfile,yml,sh,env,conf my_project`
 
